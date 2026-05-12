@@ -1,77 +1,134 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { getProduct } from "@/data/games";
-import type { CartLine } from "@/types";
+import type { CartItem, CartSetItem, GameSet, Product } from "@/types";
 
-function lineId(gameSlug: string, productId: string, variantId: string) {
-  return `${gameSlug}:${productId}:${variantId}`;
+interface CartStore {
+  items: CartItem[];
+  setItems: CartSetItem[];
+
+  addProduct: (product: Product) => void;
+  removeProduct: (productId: string) => void;
+  updateProductQuantity: (productId: string, quantity: number) => void;
+
+  addSet: (set: GameSet) => void;
+  removeSet: (setId: string) => void;
+
+  totalItems: () => number;
+  /** Suma katalogowa przed rabatami: produkty wg `price`, zestawy wg `setPrice`. */
+  subtotal: () => number;
+  clearCart: () => void;
 }
 
-interface CartState {
-  lines: CartLine[];
-  addLine: (input: {
-    gameSlug: string;
-    productId: string;
-    variantId: string;
-    quantity?: number;
-  }) => void;
-  setQuantity: (id: string, quantity: number) => void;
-  removeLine: (id: string) => void;
-  clear: () => void;
-}
-
-export const useCartStore = create<CartState>()(
+export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
-      lines: [],
-      addLine: ({ gameSlug, productId, variantId, quantity = 1 }) => {
-        const found = getProduct(gameSlug, productId);
-        if (!found) return;
-        const variant = found.product.variants.find((v) => v.id === variantId);
-        if (!variant) return;
+      items: [],
+      setItems: [],
 
-        const id = lineId(gameSlug, productId, variantId);
-        const existing = get().lines.find((l) => l.id === id);
-        if (existing) {
-          set({
-            lines: get().lines.map((l) =>
-              l.id === id
-                ? { ...l, quantity: l.quantity + quantity }
-                : l
-            ),
-          });
-          return;
-        }
+      addProduct: (product) => {
+        if (product.stock <= 0) return;
 
-        set({
-          lines: [
-            ...get().lines,
-            {
-              id,
-              gameSlug,
-              productId,
-              variantId,
-              quantity,
-            },
-          ],
+        set((state) => {
+          const idx = state.items.findIndex((i) => i.product.id === product.id);
+          if (idx === -1) {
+            return {
+              items: [...state.items, { product, quantity: 1 }],
+              setItems: state.setItems,
+            };
+          }
+
+          const line = state.items[idx];
+          const nextQty = line.quantity + 1;
+          if (nextQty > product.stock) return state;
+
+          const nextItems = [...state.items];
+          nextItems[idx] = { product, quantity: nextQty };
+          return { items: nextItems, setItems: state.setItems };
         });
       },
-      setQuantity: (id, quantity) => {
+
+      removeProduct: (productId) =>
+        set((state) => ({
+          items: state.items.filter((i) => i.product.id !== productId),
+          setItems: state.setItems,
+        })),
+
+      updateProductQuantity: (productId, quantity) => {
         if (quantity <= 0) {
-          set({ lines: get().lines.filter((l) => l.id !== id) });
+          get().removeProduct(productId);
           return;
         }
-        set({
-          lines: get().lines.map((l) =>
-            l.id === id ? { ...l, quantity } : l
-          ),
+
+        set((state) => {
+          const idx = state.items.findIndex((i) => i.product.id === productId);
+          if (idx === -1) return state;
+
+          const line = state.items[idx];
+          const capped = Math.min(quantity, line.product.stock);
+          if (capped <= 0) {
+            return {
+              items: state.items.filter((i) => i.product.id !== productId),
+              setItems: state.setItems,
+            };
+          }
+
+          const nextItems = [...state.items];
+          nextItems[idx] = { product: line.product, quantity: capped };
+          return { items: nextItems, setItems: state.setItems };
         });
       },
-      removeLine: (id) =>
-        set({ lines: get().lines.filter((l) => l.id !== id) }),
-      clear: () => set({ lines: [] }),
+
+      addSet: (gameSet) => {
+        set((state) => {
+          const idx = state.setItems.findIndex((s) => s.set.id === gameSet.id);
+          if (idx === -1) {
+            return {
+              items: state.items,
+              setItems: [...state.setItems, { set: gameSet, quantity: 1 }],
+            };
+          }
+
+          const line = state.setItems[idx];
+          const nextSetItems = [...state.setItems];
+          nextSetItems[idx] = { set: gameSet, quantity: line.quantity + 1 };
+          return { items: state.items, setItems: nextSetItems };
+        });
+      },
+
+      removeSet: (setId) =>
+        set((state) => ({
+          items: state.items,
+          setItems: state.setItems.filter((s) => s.set.id !== setId),
+        })),
+
+      totalItems: () => {
+        const { items, setItems } = get();
+        const p = items.reduce((a, i) => a + i.quantity, 0);
+        const s = setItems.reduce((a, i) => a + i.quantity, 0);
+        return p + s;
+      },
+
+      subtotal: () => {
+        const { items, setItems } = get();
+        let sum = 0;
+        for (const { product, quantity } of items) {
+          sum += product.price * quantity;
+        }
+        for (const { set, quantity } of setItems) {
+          sum += set.setPrice * quantity;
+        }
+        return Math.round(sum * 100) / 100;
+      },
+
+      clearCart: () => set({ items: [], setItems: [] }),
     }),
-    { name: "przegrodka-cart" }
+    {
+      name: "przegrodka-cart",
+      partialize: (state) => ({
+        items: state.items,
+        setItems: state.setItems,
+      }),
+    }
   )
 );

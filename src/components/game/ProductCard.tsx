@@ -1,95 +1,86 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { motion } from "framer-motion";
 
-import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/lib/store";
-import type { GameProduct } from "@/types";
+import { ProductPlaceholderImage } from "@/components/ui/ProductPlaceholderImage";
+import type { Product, ProductCategory } from "@/types";
 
-const schema = z.object({
-  variantId: z.string().min(1, "Wybierz wariant"),
-  quantity: z.number().int().min(1).max(99),
-});
-
-type FormValues = z.infer<typeof schema>;
+const categoryLabel: Record<ProductCategory, string> = {
+  insert: "Insert",
+  accessory: "Akcesorium",
+  pad: "Podkładka",
+};
 
 export function ProductCard({
-  gameSlug,
   product,
+  isSelected,
+  onToggle,
 }: {
-  gameSlug: string;
-  product: GameProduct;
+  product: Product;
+  isSelected: boolean;
+  onToggle: () => void;
 }) {
-  const addLine = useCartStore((s) => s.addLine);
-  const defaultVariant = product.variants[0]?.id ?? "";
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      variantId: defaultVariant,
-      quantity: 1,
-    },
-  });
-
   return (
-    <article className="rounded-xl border border-border bg-card p-5">
-      <h3 className="text-lg font-medium text-foreground">{product.name}</h3>
-      <p className="mt-2 text-sm text-muted-foreground">{product.description}</p>
-      <form
-        className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end"
-        onSubmit={form.handleSubmit((values) => {
-          addLine({
-            gameSlug,
-            productId: product.id,
-            variantId: values.variantId,
-            quantity: values.quantity,
-          });
-          form.reset({ ...values, quantity: 1 });
-        })}
-      >
-        <div className="flex flex-1 flex-col gap-1">
-          <label className="text-xs font-medium text-muted-foreground">
-            Wariant
-          </label>
-          <select
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm text-foreground"
-            {...form.register("variantId")}
+    <motion.article
+      whileHover={{ scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 500, damping: 35 }}
+      className={`relative cursor-pointer overflow-hidden rounded-xl border bg-[color:var(--surface-elevated)] transition-colors duration-200 ${
+        isSelected
+          ? "border-[color:var(--accent)]"
+          : "border-[color:var(--border)]"
+      }`}
+      onClick={onToggle}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onToggle();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isSelected}
+    >
+      {isSelected ? (
+        <span
+          className="absolute right-3 top-3 z-[1] flex size-6 items-center justify-center rounded-full bg-[color:var(--accent)] text-sm font-bold text-white"
+          aria-hidden
+        >
+          ✓
+        </span>
+      ) : null}
+
+      <div className="relative h-[50%] min-h-[140px] w-full">
+        <ProductPlaceholderImage
+          alt=""
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 50vw, 200px"
+        />
+      </div>
+
+      <div className="p-4">
+        <span className="inline-block rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-2.5 py-0.5 font-mono text-xs text-[color:var(--text-muted)]">
+          {categoryLabel[product.category]}
+        </span>
+        <h3 className="mt-2 text-base font-bold text-white">{product.name}</h3>
+        <p className="mt-1 line-clamp-2 text-sm text-[color:var(--text-muted)]">
+          {product.description}
+        </p>
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <span className="font-mono text-base font-bold text-white">
+            {product.price} zł
+          </span>
+          <span
+            className={`pointer-events-none shrink-0 rounded-lg px-3 py-1.5 text-sm transition-colors ${
+              isSelected
+                ? "bg-[color:var(--accent)] text-white"
+                : "border border-[color:var(--border)] text-[color:var(--text-muted)]"
+            }`}
           >
-            {product.variants.map((v) => (
-              <option key={v.id} value={v.id}>
-                {v.label} — {v.pricePln} zł
-              </option>
-            ))}
-          </select>
-          {form.formState.errors.variantId ? (
-            <p className="text-xs text-destructive">
-              {form.formState.errors.variantId.message}
-            </p>
-          ) : null}
+            {isSelected ? "Dodano ✓" : "Dodaj"}
+          </span>
         </div>
-        <div className="flex w-24 flex-col gap-1">
-          <label className="text-xs font-medium text-muted-foreground">
-            Szt.
-          </label>
-          <input
-            type="number"
-            min={1}
-            max={99}
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm text-foreground"
-            {...form.register("quantity", { valueAsNumber: true })}
-          />
-          {form.formState.errors.quantity ? (
-            <p className="text-xs text-destructive">
-              {form.formState.errors.quantity.message}
-            </p>
-          ) : null}
-        </div>
-        <Button type="submit" className="sm:mb-0">
-          Do koszyka
-        </Button>
-      </form>
-    </article>
+      </div>
+    </motion.article>
   );
 }

@@ -2,6 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+html {
+  scroll-behavior: smooth;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -10,6 +14,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-geist-sans);
+  --font-display: var(--font-cinzel), ui-serif, Georgia, serif;
   --color-brand: var(--accent);
   --color-brand-hover: var(--accent-hover);
   --color-surface: var(--surface);
@@ -67,6 +72,7 @@
   --border: #2A2A35;
   --border-hover: #E8610A;
   --discount-badge: #22C55E;
+  --font-display: var(--font-cinzel), "Cinzel", ui-serif, Georgia, serif;
 
   --foreground: var(--text-primary);
   --card: var(--surface);
@@ -143,4 +149,19 @@
   html {
     @apply font-sans;
   }
+}
+
+@keyframes hero-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: hero-marquee-scroll 40s linear infinite;
 }

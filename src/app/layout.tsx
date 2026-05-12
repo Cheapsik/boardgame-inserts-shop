@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cinzel, Geist, Geist_Mono } from "next/font/google";
+
+import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -13,13 +17,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: {
-    default: "Przegródka",
+    default: "Przegródka — Akcesoria do gier planszowych",
     template: "%s | Przegródka",
   },
   description:
-    "Przegródki i inserty pod planszówki — konfiguracja materiału i szybka wysyłka.",
+    "Drukowane 3D inserty i akcesoria do gier planszowych. Zamów swój zestaw.",
 };
 
 export default function RootLayout({
@@ -30,9 +40,14 @@ export default function RootLayout({
   return (
     <html lang="pl" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-background font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} flex min-h-dvh flex-col bg-background font-sans text-foreground antialiased`}
       >
-        {children}
+        <Navbar />
+        <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] pt-14 sm:pt-16">
+          <div className="min-h-0">{children}</div>
+          <Footer />
+        </div>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

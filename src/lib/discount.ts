@@ -1,13 +1,52 @@
-export interface DiscountInput {
+import type { DiscountInfo, Product } from "@/types";
+
+export const DISCOUNT_TIERS = [
+  { minItems: 2, percentage: 10 },
+  { minItems: 3, percentage: 15 },
+] as const;
+
+/**
+ * Rabat progowy od sumy cen wybranych produktów (każda szt. = jeden wpis w tablicy).
+ * Zestawy mają własną cenę — nie wliczaj ich tutaj.
+ */
+export function calculateDiscount(
+  selectedProducts: Product[]
+): DiscountInfo {
+  const n = selectedProducts.length;
+  const subtotal = selectedProducts.reduce((sum, p) => sum + p.price, 0);
+
+  const tier = [...DISCOUNT_TIERS]
+    .filter((t) => n >= t.minItems)
+    .sort((a, b) => b.minItems - a.minItems)[0];
+
+  const percentage = tier?.percentage ?? 0;
+  const eligible = n >= 2 && percentage > 0;
+  const savedAmount = eligible
+    ? Math.round(subtotal * (percentage / 100) * 100) / 100
+    : 0;
+
+  return { eligible, percentage, savedAmount };
+}
+
+export function getPriceAfterDiscount(
+  products: Product[],
+  discountInfo: DiscountInfo
+): number {
+  const subtotal = products.reduce((sum, p) => sum + p.price, 0);
+  return Math.max(
+    0,
+    Math.round((subtotal - discountInfo.savedAmount) * 100) / 100
+  );
+}
+
+/** Kody rabatowe (osobno od rabatu progowego produktów). */
+export interface PromoInput {
   subtotalPln: number;
-  /** Kod rabatowy wpisany przez klienta (normalizowany, wielkość liter nieistotna). */
   code?: string;
 }
 
-export interface DiscountResult {
-  /** Kwota rabatu w PLN (nie ujemna). */
+export interface PromoResult {
   amountPln: number;
-  /** Zastosowany kod lub null. */
   appliedCode: string | null;
 }
 
@@ -22,7 +61,7 @@ function normalizeCode(code: string | undefined): string | null {
   return t.length ? t : null;
 }
 
-export function computeDiscount(input: DiscountInput): DiscountResult {
+export function computePromoDiscount(input: PromoInput): PromoResult {
   const subtotal = Math.max(0, input.subtotalPln);
   const key = normalizeCode(input.code);
   if (!key || !PROMOS[key]) {

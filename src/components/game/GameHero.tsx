@@ -1,8 +1,7 @@
 import Link from "next/link";
 
+import { GameHeroBackground } from "@/components/game/GameHeroBackground";
 import type { Game } from "@/types";
-
-import { ProductConfigurator } from "./ProductConfigurator";
 
 interface GameHeroProps {
   game: Game;
@@ -10,20 +9,32 @@ interface GameHeroProps {
 
 export function GameHero({ game }: GameHeroProps) {
   return (
-    <section className="border-b border-border bg-surface px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mx-auto max-w-6xl">
-        <nav className="text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-foreground">
-            Strona główna
+    <section className="relative h-[65vh] min-h-[400px] w-full overflow-hidden">
+      <GameHeroBackground src={game.heroImage} />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(13,13,15,0.3) 0%, rgba(13,13,15,1) 100%)",
+        }}
+        aria-hidden
+      />
+      <div className="absolute bottom-0 left-0 z-[1] p-8">
+        <nav className="mb-3 font-mono text-xs text-[color:var(--text-muted)]">
+          <Link href="/#gry" className="transition-colors hover:text-white">
+            Gry
           </Link>
-          <span className="mx-2">/</span>
-          <span className="text-foreground">{game.title}</span>
+          <span className="mx-1.5" aria-hidden>
+            →
+          </span>
+          <span className="text-[color:var(--text-muted)]">{game.name}</span>
         </nav>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {game.title}
+        <h1 className="font-display text-4xl font-bold text-white">
+          {game.name}
         </h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">{game.tagline}</p>
-        <ProductConfigurator game={game} />
+        <p className="mt-2 max-w-2xl text-base text-[color:var(--text-muted)]">
+          {game.tagline}
+        </p>
       </div>
     </section>
   );

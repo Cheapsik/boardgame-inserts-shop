@@ -2,26 +2,44 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <div>
-          <p className="font-semibold text-foreground">Przegródka</p>
-          <p className="mt-1 max-w-md text-sm text-muted-foreground">
-            Przegródki i inserty pod Twoje ulubione planszówki — szyte na miarę
-            pudełka, nie na odlew.
-          </p>
-        </div>
-        <div className="flex gap-6 text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-foreground">
-            Sklep
+    <footer
+      id="kontakt"
+      className="border-t border-border bg-surface py-8 text-sm text-text-muted"
+    >
+      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-6 px-4 text-center sm:px-6 md:grid-cols-3 md:items-start md:gap-8 md:text-left">
+        <p className="font-medium md:justify-self-start">Przegródka</p>
+        <p className="md:justify-self-center md:text-center">
+          © 2026 Przegródka. Wszelkie prawa zastrzeżone.
+        </p>
+        <nav
+          className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 md:justify-self-end md:justify-end"
+          aria-label="Stopka"
+        >
+          <Link
+            href="/polityka-prywatnosci"
+            className="transition-colors hover:text-text-primary"
+          >
+            Polityka prywatności
           </Link>
-          <Link href="/koszyk" className="hover:text-foreground">
-            Koszyk
+          <span className="select-none" aria-hidden>
+            ·
+          </span>
+          <Link
+            href="/wysylka"
+            className="transition-colors hover:text-text-primary"
+          >
+            Wysyłka
           </Link>
-        </div>
-      </div>
-      <div className="border-t border-border py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Przegródka
+          <span className="select-none" aria-hidden>
+            ·
+          </span>
+          <Link
+            href="/#kontakt"
+            className="transition-colors hover:text-text-primary"
+          >
+            Kontakt
+          </Link>
+        </nav>
       </div>
     </footer>
   );

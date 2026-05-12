@@ -1,32 +1,32 @@
-import type { Metadata } from "next";
+"use client";
 
 import { CartItemList } from "@/components/cart/CartItemList";
 import { CartSummary } from "@/components/cart/CartSummary";
-import { Footer } from "@/components/layout/Footer";
-import { Navbar } from "@/components/layout/Navbar";
-
-export const metadata: Metadata = {
-  title: "Koszyk",
-  description: "Podgląd koszyka i kody rabatowe.",
-};
+import { useCartStore } from "@/lib/store";
 
 export default function CartPage() {
+  const items = useCartStore((s) => s.items);
+  const setItems = useCartStore((s) => s.setItems);
+  const removeProduct = useCartStore((s) => s.removeProduct);
+  const removeSet = useCartStore((s) => s.removeSet);
+  const updateProductQuantity = useCartStore((s) => s.updateProductQuantity);
+
   return (
-    <>
-      <Navbar />
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
-          Koszyk
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          Zweryfikuj ilości i ewentualnie zastosuj kod rabatowy przed zamówieniem.
-        </p>
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_360px]">
-          <CartItemList />
-          <CartSummary />
-        </div>
-      </main>
-      <Footer />
-    </>
+    <main className="container mx-auto px-4 py-10 sm:px-6">
+      <h1 className="text-3xl font-bold tracking-tight text-white">Koszyk</h1>
+      <p className="mt-2 text-sm text-text-muted">
+        Zweryfikuj ilości przed zamówieniem.
+      </p>
+      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_360px]">
+        <CartItemList
+          items={items}
+          setItems={setItems}
+          onRemoveProduct={removeProduct}
+          onRemoveSet={removeSet}
+          onUpdateQuantity={updateProductQuantity}
+        />
+        <CartSummary items={items} setItems={setItems} />
+      </div>
+    </main>
   );
 }

@@ -3,7 +3,17 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 
-export function GameHeroBackground({ src }: { src: string }) {
+import { cn } from "@/lib/utils";
+
+export function GameHeroBackground({
+  src,
+  imageClassName,
+  sizes = "100vw",
+}: {
+  src: string;
+  imageClassName?: string;
+  sizes?: string;
+}) {
   const [broken, setBroken] = useState(false);
   const onError = useCallback(() => setBroken(true), []);
 
@@ -22,8 +32,11 @@ export function GameHeroBackground({ src }: { src: string }) {
       alt=""
       fill
       priority
-      className="object-cover object-center"
-      sizes="100vw"
+      className={cn(
+        "object-cover object-center",
+        imageClassName,
+      )}
+      sizes={sizes}
       onError={onError}
     />
   );

@@ -63,7 +63,7 @@ export function OrderSummary({
 
       {!hasSelection ? (
         <p className="mt-6 text-center text-sm text-text-muted">
-          Wybierz produkty które chcesz zamówić
+          Wybierz produkty albo zestawy, które chcesz zamówić
         </p>
       ) : (
         <>

@@ -165,3 +165,16 @@ html {
   width: max-content;
   animation: hero-marquee-scroll 40s linear infinite;
 }
+
+details.help-faq > summary {
+  list-style: none;
+}
+details.help-faq > summary::-webkit-details-marker {
+  display: none;
+}
+details.help-faq[open] summary .help-faq-chevron {
+  transform: rotate(180deg);
+}
+.help-faq-chevron {
+  transition: transform 0.3s ease;
+}

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-/** SVG placeholder (600×400) — same look as product placeholders; cacheable. */
 export function GET() {
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" role="img" aria-label="Zdjęcie produktu">

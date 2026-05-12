@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { toast } from "sonner";
 
+import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import type { CartItem, CartSetItem } from "@/types";
 
 export interface CartSummaryProps {
@@ -12,6 +12,7 @@ export interface CartSummaryProps {
 
 export function CartSummary({ items, setItems }: CartSummaryProps) {
   const [promoCode, setPromoCode] = useState("");
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const empty = items.length === 0 && setItems.length === 0;
 
@@ -41,6 +42,7 @@ export function CartSummary({ items, setItems }: CartSummaryProps) {
   }
 
   return (
+    <>
     <aside className="sticky top-24 rounded-xl border border-border bg-[rgba(20,20,24,0.9)] p-5 backdrop-blur-md">
       <h2 className="text-lg font-bold text-white">Podsumowanie</h2>
 
@@ -99,10 +101,21 @@ export function CartSummary({ items, setItems }: CartSummaryProps) {
       <button
         type="button"
         className="mt-6 w-full rounded-lg bg-brand py-3 font-medium text-white transition-opacity hover:opacity-90"
-        onClick={() => toast("Płatności wkrótce dostępne 🎲")}
+        onClick={() => setCheckoutOpen(true)}
       >
         Złóż zamówienie →
       </button>
     </aside>
+
+    <CheckoutModal
+      open={checkoutOpen}
+      onClose={() => setCheckoutOpen(false)}
+      items={items}
+      setItems={setItems}
+      productsSubtotal={productsSubtotal}
+      setsSubtotal={setsSubtotal}
+      total={total}
+    />
+    </>
   );
 }

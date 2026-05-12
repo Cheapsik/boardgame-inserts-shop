@@ -13,7 +13,6 @@ const navLinkClass =
 export function Navbar() {
   const count = useCartStore((s) => s.totalItems());
   const [logoFailed, setLogoFailed] = useState(false);
-  /** Persist rehydrates only on client — keep first paint aligned with SSR to avoid hydration mismatch. */
   const [cartUiReady, setCartUiReady] = useState(false);
   useEffect(() => {
     setCartUiReady(true);
@@ -55,7 +54,10 @@ export function Navbar() {
             <Link href="/#o-nas" className={navLinkClass}>
               O nas
             </Link>
-            <Link href="/#kontakt" className={navLinkClass}>
+            <Link href="/pomoc" className={navLinkClass}>
+              Pomoc
+            </Link>
+            <Link href="/kontakt" className={navLinkClass}>
               Kontakt
             </Link>
           </div>

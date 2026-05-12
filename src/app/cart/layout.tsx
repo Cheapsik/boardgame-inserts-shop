@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     "Drukowane 3D inserty i akcesoria do gier planszowych. Zamów swój zestaw.",
 };
 
-export default function KoszykLayout({
+export default function CartLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

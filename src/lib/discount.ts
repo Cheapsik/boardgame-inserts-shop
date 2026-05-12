@@ -5,10 +5,6 @@ export const DISCOUNT_TIERS = [
   { minItems: 3, percentage: 15 },
 ] as const;
 
-/**
- * Rabat progowy od sumy cen wybranych produktów (każda szt. = jeden wpis w tablicy).
- * Zestawy mają własną cenę — nie wliczaj ich tutaj.
- */
 export function calculateDiscount(
   selectedProducts: Product[]
 ): DiscountInfo {
@@ -39,7 +35,6 @@ export function getPriceAfterDiscount(
   );
 }
 
-/** Kody rabatowe (osobno od rabatu progowego produktów). */
 export interface PromoInput {
   subtotalPln: number;
   code?: string;

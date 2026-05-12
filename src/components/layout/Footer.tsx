@@ -34,7 +34,16 @@ export function Footer() {
             ·
           </span>
           <Link
-            href="/#kontakt"
+            href="/pomoc"
+            className="transition-colors hover:text-text-primary"
+          >
+            Pomoc
+          </Link>
+          <span className="select-none" aria-hidden>
+            ·
+          </span>
+          <Link
+            href="/kontakt"
             className="transition-colors hover:text-text-primary"
           >
             Kontakt

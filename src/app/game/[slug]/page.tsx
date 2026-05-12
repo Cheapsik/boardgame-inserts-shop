@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { GameHero } from "@/components/game/GameHero";
 import { ProductConfigurator } from "@/components/game/ProductConfigurator";
 import { games } from "@/data/games";
 
@@ -37,8 +36,7 @@ export default async function GamePage({ params }: GamePageProps) {
 
   return (
     <main>
-      <GameHero game={game} />
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 md:px-8 lg:py-10">
         <ProductConfigurator game={game} />
       </div>
     </main>

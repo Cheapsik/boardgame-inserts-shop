@@ -11,7 +11,6 @@ type ProductPlaceholderImageProps = {
   alt?: string;
   className?: string;
   sizes?: string;
-  /** Pierwszy URL z `product.images` / `set.images`; bez tego używany jest domyślny organiser. */
   src?: string;
 } & (
   | { fill: true; width?: never; height?: never }

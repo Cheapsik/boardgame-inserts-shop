@@ -15,7 +15,6 @@ interface CartStore {
   removeSet: (setId: string) => void;
 
   totalItems: () => number;
-  /** Suma katalogowa przed rabatami: produkty wg `price`, zestawy wg `setPrice`. */
   subtotal: () => number;
   clearCart: () => void;
 }

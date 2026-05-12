@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { publicUrl } from "@/lib/publicPath";
 import { useCartStore } from "@/lib/store";
 
 const navLinkClass =
@@ -31,7 +32,7 @@ export function Navbar() {
         >
           {!logoFailed ? (
             <Image
-              src="/assets/przegrodka_logo.png"
+              src={publicUrl("/assets/przegrodka_logo.png")}
               alt="Przegródka"
               width={200}
               height={56}

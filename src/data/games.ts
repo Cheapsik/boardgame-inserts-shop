@@ -1,7 +1,8 @@
 import { ORGANISER_PRODUCT_IMAGE_SRC } from "@/lib/assets";
+import { publicUrl } from "@/lib/publicPath";
 import type { Game } from "@/types";
 
-const witcherLandscape = "/assets/witcher_landscape.webp";
+const witcherLandscape = publicUrl("/assets/witcher_landscape.webp");
 
 export const games: Game[] = [
   {

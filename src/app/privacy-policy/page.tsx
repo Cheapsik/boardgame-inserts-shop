@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
+    <main className="mx-auto max-w-2xl bg-background/75 px-4 py-12 backdrop-blur-md sm:px-6">
       <h1 className="font-display text-3xl font-semibold text-foreground">
         Polityka prywatności
       </h1>

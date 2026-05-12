@@ -1,6 +1,6 @@
 export function HelpHero() {
   return (
-    <div className="relative isolate overflow-hidden border-b border-border bg-surface-elevated py-16 sm:py-24">
+    <div className="relative isolate overflow-hidden border-b border-border bg-surface-elevated/85 py-16 backdrop-blur-md sm:py-24">
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-30"
         style={{

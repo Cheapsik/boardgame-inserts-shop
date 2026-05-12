@@ -20,7 +20,7 @@ const pillars = [
 
 export function ContactWhySection() {
   return (
-    <section className="relative border-t border-border bg-background py-12 lg:py-20">
+    <section className="relative border-t border-border bg-background/80 py-12 backdrop-blur-md lg:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mx-auto max-w-2xl">
           <div className="mb-6 inline-flex items-center rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand">

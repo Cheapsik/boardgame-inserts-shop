@@ -19,7 +19,7 @@ export function ContactForm() {
   }
 
   return (
-    <section className="relative overflow-hidden border-t border-border bg-surface py-16 lg:py-24">
+    <section className="relative overflow-hidden border-t border-border bg-surface/85 py-16 backdrop-blur-md lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mb-12 text-center">
           <h2 className="mb-4 font-display text-3xl font-bold tracking-tight text-white">

@@ -5,23 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { AnimatedMeshBackground } from "@/components/ui/AnimatedMeshBackground";
 import { ORGANISER_PRODUCT_IMAGE_SRC } from "@/lib/assets";
 import { games } from "@/data/games";
 
 export function HeroSection() {
   const firstProduct = games[0]?.products[0];
-  const marqueeNames = games.map((g) => g.name).join(" · ");
   const [heroImgOk, setHeroImgOk] = useState(true);
 
   return (
-    <section
-      className="relative flex min-h-screen flex-col bg-[color:var(--background)]"
-      style={{
-        backgroundImage:
-          "radial-gradient(600px circle at 100% 0%, rgba(26, 26, 46, 0.6), transparent 65%)",
-      }}
-    >
-      <div className="flex flex-1 items-center px-4 py-16 sm:px-6 lg:py-0">
+    <section className="relative isolate flex min-h-screen flex-col overflow-hidden bg-[color:var(--background)]">
+      <AnimatedMeshBackground />
+      <div className="relative z-10 flex flex-1 items-center px-4 py-16 sm:px-6 lg:py-0">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[55%_45%] lg:gap-8">
           <div className="max-w-xl">
             <p className="font-mono text-xs uppercase tracking-widest text-[color:var(--accent)]">
@@ -93,16 +88,6 @@ export function HeroSection() {
               </motion.div>
             </div>
           ) : null}
-        </div>
-      </div>
-
-      <div className="border-y border-[color:var(--border)] bg-[color:var(--surface)] py-3">
-        <div className="overflow-hidden">
-          <div className="hero-marquee-track font-mono text-sm text-[color:var(--text-muted)]">
-            <span className="inline-block shrink-0 whitespace-nowrap pr-12">
-              {marqueeNames} ·{" "}
-            </span>
-          </div>
         </div>
       </div>
     </section>

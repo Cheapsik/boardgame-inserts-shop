@@ -17,14 +17,16 @@ export default function HelpPage() {
   return (
     <main>
       <HelpHero />
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          <HelpSidebar />
-          <div className="space-y-16 lg:col-span-9">
-            <HelpFaq />
-            <HelpPrivacySection />
-            <HelpTermsSection />
-            <HelpShippingSection />
+      <div className="border-t border-border bg-background/75 backdrop-blur-md">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+            <HelpSidebar />
+            <div className="space-y-16 lg:col-span-9">
+              <HelpFaq />
+              <HelpPrivacySection />
+              <HelpTermsSection />
+              <HelpShippingSection />
+            </div>
           </div>
         </div>
       </div>

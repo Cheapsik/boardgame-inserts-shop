@@ -51,6 +51,7 @@ export function ProductCard({
 
       <div className="relative h-[50%] min-h-[140px] w-full">
         <ProductPlaceholderImage
+          src={product.images[0]}
           alt=""
           fill
           className="object-cover"

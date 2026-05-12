@@ -1,6 +1,7 @@
+import { ORGANISER_PRODUCT_IMAGE_SRC } from "@/lib/assets";
 import type { Game } from "@/types";
 
-const placeholder = "/placeholders/product-placeholder.jpg";
+const witcherLandscape = "/assets/witcher_landscape.webp";
 
 export const games: Game[] = [
   {
@@ -9,7 +10,7 @@ export const games: Game[] = [
     tagline: "Opanuj chaos Kontynentu",
     description:
       "Inserty, akcesoria i podkładki z druku 3D pod Wiedźmin: Stary Świat — porządek w pudełku i na stole.",
-    heroImage: placeholder,
+    heroImage: witcherLandscape,
     accentColor: "#7EB8C9",
     products: [
       {
@@ -20,7 +21,7 @@ export const games: Game[] = [
           "Kompletny system organizacji pudełka. Dedykowane miejsce na karty, żetony i figurki.",
         price: 149,
         stock: 10,
-        images: [placeholder],
+        images: [ORGANISER_PRODUCT_IMAGE_SRC],
         gameSlug: "wiedzmin-stary-swiat",
       },
       {
@@ -31,7 +32,7 @@ export const games: Game[] = [
           "Ozdobne nakładki na monety wiedźmińskie. Drukowane w wysokiej rozdzielczości.",
         price: 49,
         stock: 15,
-        images: [placeholder],
+        images: [ORGANISER_PRODUCT_IMAGE_SRC],
         gameSlug: "wiedzmin-stary-swiat",
       },
       {
@@ -42,7 +43,7 @@ export const games: Game[] = [
           "Organizer na talie kart gracza. Łatwy dostęp podczas rozgrywki.",
         price: 39,
         stock: 20,
-        images: [placeholder],
+        images: [ORGANISER_PRODUCT_IMAGE_SRC],
         gameSlug: "wiedzmin-stary-swiat",
       },
       {
@@ -53,7 +54,7 @@ export const games: Game[] = [
           "Indywidualna podkładka z podziałem na strefy gracza. Pasuje do 6 graczy.",
         price: 89,
         stock: 8,
-        images: [placeholder],
+        images: [ORGANISER_PRODUCT_IMAGE_SRC],
         gameSlug: "wiedzmin-stary-swiat",
       },
     ],
@@ -64,7 +65,7 @@ export const games: Game[] = [
         productIds: ["wsw-insert", "wsw-coin-overlays"],
         setPrice: 169,
         description: "Insert + nakładki na monety w jednym zamówieniu.",
-        images: [placeholder],
+        images: [ORGANISER_PRODUCT_IMAGE_SRC],
         gameSlug: "wiedzmin-stary-swiat",
       },
       {
@@ -78,7 +79,7 @@ export const games: Game[] = [
         ],
         setPrice: 279,
         description: "Wszystko czego potrzebujesz do idealnej rozgrywki.",
-        images: [placeholder],
+        images: [ORGANISER_PRODUCT_IMAGE_SRC],
         gameSlug: "wiedzmin-stary-swiat",
       },
     ],

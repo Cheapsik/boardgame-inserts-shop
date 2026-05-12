@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { ORGANISER_PRODUCT_IMAGE_SRC } from "@/lib/assets";
 import { games } from "@/data/games";
 
 export function HeroSection() {
@@ -66,7 +67,7 @@ export function HeroSection() {
                       <Image
                         src={
                           firstProduct.images[0] ??
-                          "/placeholders/product-placeholder.jpg"
+                          ORGANISER_PRODUCT_IMAGE_SRC
                         }
                         alt=""
                         fill

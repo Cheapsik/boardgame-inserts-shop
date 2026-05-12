@@ -32,11 +32,11 @@ export function Navbar() {
         >
           {!logoFailed ? (
             <Image
-              src="/logo.png"
+              src="/assets/przegrodka_logo.png"
               alt="Przegródka"
-              width={160}
-              height={48}
-              className="h-9 w-auto max-w-[180px] object-contain object-left sm:h-10"
+              width={200}
+              height={56}
+              className="h-9 w-auto max-w-[200px] object-contain object-left sm:h-10"
               priority
               onError={() => setLogoFailed(true)}
             />

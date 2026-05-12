@@ -5,12 +5,14 @@ import { useCallback, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-const PLACEHOLDER_SRC = "/placeholders/product-placeholder.jpg";
+import { ORGANISER_PRODUCT_IMAGE_SRC } from "@/lib/assets";
 
 type ProductPlaceholderImageProps = {
   alt?: string;
   className?: string;
   sizes?: string;
+  /** Pierwszy URL z `product.images` / `set.images`; bez tego używany jest domyślny organiser. */
+  src?: string;
 } & (
   | { fill: true; width?: never; height?: never }
   | { fill?: false; width: number; height: number }
@@ -20,8 +22,10 @@ export function ProductPlaceholderImage({
   alt = "",
   className,
   sizes,
+  src,
   ...rest
 }: ProductPlaceholderImageProps) {
+  const resolvedSrc = src ?? ORGANISER_PRODUCT_IMAGE_SRC;
   const [broken, setBroken] = useState(false);
   const onError = useCallback(() => setBroken(true), []);
 
@@ -51,7 +55,7 @@ export function ProductPlaceholderImage({
   if (fill) {
     return (
       <Image
-        src={PLACEHOLDER_SRC}
+        src={resolvedSrc}
         alt={alt}
         fill
         sizes={sizes}
@@ -64,7 +68,7 @@ export function ProductPlaceholderImage({
   const { width, height } = rest;
   return (
     <Image
-      src={PLACEHOLDER_SRC}
+      src={resolvedSrc}
       alt={alt}
       width={width}
       height={height}

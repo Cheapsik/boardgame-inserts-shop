@@ -71,6 +71,7 @@ export function CartItemList({
             >
               <div className="relative size-[72px] shrink-0 overflow-hidden rounded-lg">
                 <ProductPlaceholderImage
+                  src={line.product.images[0]}
                   alt=""
                   fill
                   className="object-cover"
@@ -148,6 +149,7 @@ export function CartItemList({
           >
             <div className="relative size-[72px] shrink-0 overflow-hidden rounded-lg">
               <ProductPlaceholderImage
+                src={line.set.images[0]}
                 alt=""
                 fill
                 className="object-cover"

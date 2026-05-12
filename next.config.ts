@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  basePath: "/boardgame-inserts-shop",
   async redirects() {
     return [
       { source: "/cart", destination: "/koszyk", permanent: true },
@@ -27,7 +29,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    unoptimized: false,
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
       { protocol: "https", hostname: "**.supabase.co", pathname: "/**" },
